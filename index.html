@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MN Cannabis AI</title>
+    <title>MY Avatar</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/css/uikit.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,8 +13,9 @@
 
     <div class="uk-section uk-section-large">
         <div class="uk-container uk-text-center uk-padding-large">
-            <h1 class="uk-heading-medium"><strong>MY Goals</strong> Purpose</h1>
-            <p class="uk-text-lead">A Knowledge Base App for Defining and Refining my goals</p>
+            <h1 class="uk-heading-medium"><strong>MY Avatar</strong> Create </h1>
+            <p class="uk-text-lead">A Self Knowledge Base App for Defining and Refining my goals</p>
+            <button id="createCardButton" class="uk-button uk-button-default">Create Card</button>
         </div>
       
         <div id="cardsContainer" class="uk-container uk-text-center uk-padding">
@@ -22,6 +23,21 @@
         </div>
         <div class="uk-pagination" id="pagination">
             <!-- Pagination controls will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Modal for creating/editing cards -->
+    <div id="modal-create-card" class="uk-modal-container" uk-modal>
+        <div class="uk-modal-dialog uk-modal-body">
+            <h2 class="uk-modal-title">Create Card</h2>
+            <form id="cardForm">
+                <input id="cardTitle" class="uk-input" type="text" placeholder="Card Title" required>
+                <textarea id="cardContent" class="uk-textarea" placeholder="Card Content" rows="5" required></textarea>
+                <div class="uk-margin">
+                    <button id="saveCardButton" class="uk-button uk-button-primary">Save Card</button>
+                    <button class="uk-modal-close uk-button uk-button-default" type="button">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 

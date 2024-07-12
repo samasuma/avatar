@@ -1,15 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
     const cardsContainer = document.getElementById('cardsContainer');
     const pagination = document.getElementById('pagination');
+    const createCardButton = document.getElementById('createCardButton');
+    const modal = document.getElementById('modal-create-card');
+    const cardForm = document.getElementById('cardForm');
+    const cardTitleInput = document.getElementById('cardTitle');
+    const cardContentInput = document.getElementById('cardContent');
+    const saveCardButton = document.getElementById('saveCardButton');
 
     let currentList = []; // Array to hold current list of cards
     let currentPage = 1; // Current page number
     let cardsPerPage = 5; // Number of cards per page
 
-    // Fetch cards data from JSON file
+    // Fetch cards data from JSON file or initialize an empty array
     axios.get('cards.json')
         .then(response => {
-            currentList = response.data.cards; // Assign fetched data to currentList
+            currentList = response.data.cards || []; // Assign fetched data to currentList
             renderCards(); // Render cards after fetching data
         })
         .catch(error => console.error('Error fetching cards data:', error));
@@ -108,4 +114,45 @@ document.addEventListener('DOMContentLoaded', function () {
         li.appendChild(button);
         return li;
     }
+
+    // Open modal and set up form for creating/editing cards
+    createCardButton.addEventListener('click', function () {
+        UIkit.modal(modal).show();
+
+        // Reset form inputs
+        cardTitleInput.value = '';
+        cardContentInput.value = '';
+        saveCardButton.textContent = 'Save Card';
+
+        // Handle form submission for creating/editing cards
+        cardForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const title = cardTitleInput.value.trim();
+            const content = cardContentInput.value.trim();
+
+            if (!title || !content) {
+                alert('Please enter both title and content for the card.');
+                return;
+            }
+
+            // Check if we are creating a new card or editing an existing one
+            const existingCardIndex = currentList.findIndex(card => card.title === title);
+            if (existingCardIndex !== -1) {
+                // Edit existing card
+                currentList[existingCardIndex].content = content;
+            } else {
+                // Create new card
+                currentList.push({ title, content });
+            }
+
+            // Save updated list to local storage or backend (e.g., JSON file)
+            // For demonstration purposes, we'll just log the updated list
+            console.log('Updated Card List:', currentList);
+
+            // Close modal and re-render cards
+            UIkit.modal(modal).hide();
+            renderCards();
+        });
+    });
 });
